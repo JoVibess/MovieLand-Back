@@ -28,17 +28,17 @@ Session.init(
       allowNull: false,
     },
     show_time: {
-      type: DataTypes.STRING, // Chaîne de caractères pour l'heure de diffusion
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        is: /^([01]?[0-9]|2[0-3]):([0-5][0-9])$/, // Regex pour vérifier que l'heure est au format HH:mm
+        is: /^([01]?[0-9]|2[0-3])H([0-5][0-9])$/, // Format HHhMM
       },
     },
   },
   {
     sequelize,
     modelName: "Session",
-    tableName: "sessions", // Assure-toi que c'est le nom correct
+    tableName: "sessions",
   }
 );
 

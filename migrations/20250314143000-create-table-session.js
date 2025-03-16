@@ -16,7 +16,7 @@ module.exports = {
         references: {
           model: "movies",
           key: "id",
-        }
+        },
       },
       room_id: {
         type: Sequelize.INTEGER,
@@ -24,11 +24,18 @@ module.exports = {
         references: {
           model: "rooms",
           key: "id",
-        }
+        },
       },
       start_time: {
         type: Sequelize.DATE,
         allowNull: false,
+      },
+      show_time: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+          is: /^([01]?[0-9]|2[0-3])H([0-5][0-9])$/, // Format HHhMM
+        },
       },
     });
   },

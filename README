@@ -9,10 +9,9 @@ npx sequelize-cli init
 
 Pour faire une migration :
 
+npx sequelize-cli migration:generate --name add-name-field     -> Pour créer un fichier de migration
 
 npx sequelize-cli db:migrate    -> Pour migrer
- 
-npx sequelize-cli migration:generate --name add-name-field     -> Pour créer un fichier de migration
 
 
 Lien vers la BDD :
