@@ -1,0 +1,37 @@
+LES COMMANDES :
+
+Pour créer les fichiers :
+
+npm install --save-dev sequelize-cli
+ 
+npx sequelize-cli init
+
+
+Pour faire une migration :
+
+
+npx sequelize-cli db:migrate    -> Pour migrer
+ 
+npx sequelize-cli migration:generate --name add-name-field     -> Pour créer un fichier de migration
+
+
+Lien vers la BDD :
+
+http://localhost/phpmyadmin/
+
+
+Il faudra installer Axios pour faire les requetes http 
+
+Utiliser l'onglet network dans la console pour test les requetes 
+
+Sur vue : {{  }} pour afficher le contenu d'une variable 
+
+:nom_de_la_variable pour déclarer une varialbe dynamique dans le template
+
+v-model pour bind dans un form par exemple
+
+
+On se sert des composants comme modèles qu'on applique sur différents éléments qui ont des structures similaires.
+
+v-for="(user, index) in users" -> a chaque itération, il va prendre l'index propre à chaque user
+
