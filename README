@@ -35,3 +35,5 @@ On se sert des composants comme modèles qu'on applique sur différents élémen
 v-for="(user, index) in users" -> a chaque itération, il va prendre l'index propre à chaque user
 
 Utiliser des include as 
+
+Utiliser l'extension vue pour debug

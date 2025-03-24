@@ -1,6 +1,5 @@
 const { Sequelize, DataTypes, Model } = require("sequelize");
 const sequelize = require("../utils/sequelize");
-
 const USER_ROLES = {
   ADMIN: "ADMIN",
   USER: "USER",
@@ -30,6 +29,10 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    firstname: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
   {
     sequelize,
@@ -37,6 +40,8 @@ User.init(
     tableName: "users", // Assure-toi que c'est le nom correct
   }
 );
+
+
 
 module.exports = User;
 module.exports.USER_ROLES = USER_ROLES;

@@ -1,7 +1,8 @@
 const { Sequelize, DataTypes, Model } = require("sequelize");
 const sequelize = require("../utils/sequelize");
+const Session = require("./Session");
 
-class Movie extends Model {} 
+class Movie extends Model {}
 
 Movie.init(
   {
@@ -28,9 +29,6 @@ Movie.init(
     tableName: "movies", // Assure-toi que c'est le nom correct
   }
 );
-
+Movie.hasMany(Session, { foreignKey: "movie_id", as: "sessions" });
+Session.belongsTo(Movie, { foreignKey: "movie_id" });
 module.exports = Movie;
-
-
-
-

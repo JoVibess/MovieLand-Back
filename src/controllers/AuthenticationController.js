@@ -31,7 +31,9 @@ module.exports = function (app, router) {
       const user = await User.create({
         email: req.body.email,
         password: await bcrypt.hash(req.body.password, 8),
+        firstname: req.body.firstname,
       });
+
       res.send(await authenticator.authenticate(user.email, req.body.password));
     } catch (e) {
       console.log(e);

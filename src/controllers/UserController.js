@@ -2,9 +2,12 @@ const { Router } = require("express");
 const requireAuth = require("../middlewares/require-auth");
 const User = require("../models/User");
 
-const router = Router();
 
-// Route pour récupérer un utilisateur par son ID
+/**
+ * @param {Express.Application} app
+ * @param {Router} router
+ */
+module.exports = function (app, router) {
 router.get("/user/:id", requireAuth, async (req, res) => {
   try {
     const { id } = req.params;
@@ -28,5 +31,5 @@ router.get("/user/:id", requireAuth, async (req, res) => {
     res.status(500).send({ error: "Erreur lors de la récupération de l'utilisateur" });
   }
 });
+};
 
-module.exports = router;
