@@ -4,46 +4,87 @@ const requireAuth = require("../middlewares/require-auth");
 const User = require("../models/User");
 const Session = require("../models/Session");
 const Reservation = require("../models/Reservation");
+const Room = require("../models/Room");
+const Movie = require("../models/Movie");
 
-const router = Router();
+/**
+ * @param {Express.Application} app
+ * @param {Router} router
+ */
+module.exports = function (app, router) {
+  router.get("/reservations/:session_id", requireAuth, async (req, res) => {
+    try {
+      const session = req.params.session_id;
+      if (!session) {
+        return res.status(401).send({ error: "Utilisateur non authentifié" });
+      }
 
-// Récupérer toutes les réservations (uniquement pour utilisateurs connectés)
-router.get("/reservation", requireAuth, async (req, res) => {
-  try {
-    const reservations = await Reservation.findAll({
-      include: [{ model: User }, { model: Session }],
-    });
-    res.send(reservations);
-  } catch (error) {
-    console.error("Erreur:", error);
-    res.status(500).send({ error: "Erreur lors de la récupération des réservations" });
-  }
-});
+      const reservations = await Reservation.findAll({
+        include: [{ model: User }, { model: Session, where: { id: session } }],
+      });
 
-// Vérifier si une place est déjà réservée
-router.get("/reservation/:place", requireAuth, async (req, res) => {
-  try {
-    if (!req.user || !req.user.id) {
-      return res.status(401).send({ error: "Utilisateur non authentifié" });
+      res.send(reservations);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des réservations:", error);
+      res.status(500).send({ error: "Erreur serveur" });
     }
+  });
+  router.get("/reserva/me", requireAuth, async (req, res) => {
+    try {
+      console.log(req.user.id);
 
-    const { place } = req.params;
+      const userId = req.user.id;
 
-    // Vérifier si la place est déjà réservée
-    const reservation = await Reservation.findOne({
-      where: { seat_number: place },
-      include: [{ model: User }, { model: Session }],
-    });
+      if (!userId) {
+        return res.status(401).send({ error: "Utilisateur non authentifié" });
+      }
 
-    if (reservation) {
-      return res.status(400).send({ error: "Cette place est déjà réservée" });
+      const reservations = await Reservation.findAll({
+        where: { user_id: 15 },
+        include: [
+          { model: User },
+
+          { model: Session, include: [{ model: Room }, { model: Movie }] },
+        ],
+      });
+
+      res.send(reservations);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des réservations:", error);
+      res.status(500).send({ error: "Erreur serveur" });
     }
+  });
 
-    res.send({ message: "Cette place est disponible" });
-  } catch (error) {
-    console.error("Erreur:", error);
-    res.status(500).send({ error: "Erreur lors de la vérification de la réservation" });
-  }
-});
+  router.post("/reservation", requireAuth, async (req, res) => {
+    try {
+      const { session_id, row_number, seat_number } = req.body;
+      const user_id = req.user.id; // Récupéré automatiquement grâce à requireAuth
 
-module.exports = router;
+      if (!session_id || !row_number || !seat_number) {
+        return res.status(400).send({ error: "Données incomplètes" });
+      }
+
+      // Vérifier si la place est déjà réservée
+      const existReservation = await Reservation.findOne({
+        where: { session_id, row_number, seat_number },
+      });
+
+      if (existReservation) {
+        return res.status(400).send({ error: "Cette place est déjà réservée" });
+      }
+
+      // Création de la réservation
+      const reservation = await Reservation.create({
+        user_id,
+        session_id,
+        row_number,
+        seat_number,
+      });
+
+      res.status(201).send(reservation);
+    } catch (error) {
+      console.error("Erreur lors de la réservation :", error);
+      res.status(500).send({ error: "Erreur serveur" });
+    }
+  });
+};
