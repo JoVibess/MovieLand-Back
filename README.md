@@ -14,21 +14,14 @@ Avant de commencer, assure-toi d'avoir installé :
 
 ### Installation du projet
 
-1. **Cloner le dépôt :**
-
-   ```bash
-   git clone https://github.com/ton-utilisateur/MovieLand.git
-   cd MovieLand
-   ```
-
-2. **Installation des dépendances du front-end :**
+1. **Installation des dépendances du front-end :**
 
    ```bash
    cd frontend
    npm install
    ```
 
-3. **Installation des dépendances du back-end :**
+2. **Installation des dépendances du back-end :**
 
    ```bash
    cd ../backend
@@ -46,10 +39,9 @@ Avant de commencer, assure-toi d'avoir installé :
    MYSQL_URL=mysql://root:MDP@127.0.0.1:3306/cinema
    ```
 
-2. **Configurer la base de données :**
+2. **Créer la base de données :**
    ```bash
-   npx sequelize-cli db:create
-   npx sequelize-cli db:migrate
+   npm run dev
    ```
 
 ### ▶️ Lancer l'application
@@ -57,22 +49,20 @@ Avant de commencer, assure-toi d'avoir installé :
 1. **Démarrer le serveur back-end :**
 
    ```bash
-   cd backend
-   npm start
+   npm run dev
    ```
 
 2. **Démarrer le front-end :**
    ```bash
-   cd ../frontend
    npm run dev
    ```
 
 ### Ajouter des films avec une séance et une date
 
-Dans le dossier `backend/fixtures`, utilise le fichier `index.js` pour ajouter des films et leurs séances :
+Dans le dossier `/fixtures`, utilise le fichier `index.js` pour ajouter des films et leurs séances :
 
 ```bash
-cd backend/fixtures
+cd /fixtures
 node index.js
 ```
 
