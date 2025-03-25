@@ -29,3 +29,5 @@ app.use((error, req, res, next) => {
 app.listen(process.env.APP_PORT, () => {
   console.log(`Api listening at http://localhost:${process.env.APP_PORT}`);
 });
+
+module.exports = app;
