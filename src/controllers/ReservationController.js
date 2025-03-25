@@ -6,6 +6,7 @@ const Session = require("../models/Session");
 const Reservation = require("../models/Reservation");
 const Room = require("../models/Room");
 const Movie = require("../models/Movie");
+const Genre = require("../models/Genre");
 
 /**
  * @param {Express.Application} app
@@ -31,8 +32,6 @@ module.exports = function (app, router) {
   });
   router.get("/reserva/me", requireAuth, async (req, res) => {
     try {
-      console.log(req.user.id);
-
       const userId = req.user.id;
 
       if (!userId) {
@@ -44,7 +43,23 @@ module.exports = function (app, router) {
         include: [
           { model: User },
 
-          { model: Session, include: [{ model: Room }, { model: Movie }] },
+          {
+            model: Session,
+            include: [
+              { model: Room },
+              {
+                model: Movie,
+                include: [
+                  {
+                    model: Genre,
+                    as: "genres",
+                    required: true,
+                    through: { attributes: [] },
+                  },
+                ],
+              },
+            ],
+          },
         ],
       });
 
