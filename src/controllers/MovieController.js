@@ -58,14 +58,9 @@ module.exports = function (app, router) {
     res.send(
       await Movie.findAll({
         include: [
-          // {
-          //   model: Genre,
-          //   required: true,
-          //   through: { attributes: [] },
-          //   as: "genres",
-          // },
           {
             model: Session,
+            required: true,
             where: {
               start_time: {
                 [Op.gte]: new Date(`${date}T00:00:00`),
@@ -75,6 +70,12 @@ module.exports = function (app, router) {
             required: true,
             as: "sessions",
             include: [{ model: Room, required: true }],
+          },
+          {
+            model: Genre,
+            required: true,
+            through: { attributes: [] },
+            as: "genres",
           },
         ],
       })
@@ -95,7 +96,12 @@ module.exports = function (app, router) {
             model: Movie,
             required: true,
             include: [
-              { model: Genre, as: "genres", through: { attributes: [] } },
+              {
+                model: Genre,
+                as: "genres",
+                required: true,
+                through: { attributes: [] },
+              },
             ],
           },
           { model: Room, required: true },

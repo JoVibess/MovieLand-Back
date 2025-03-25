@@ -34,9 +34,10 @@ Avant de commencer, assure-toi d'avoir installé :
 
    ```bash
    APP_PORT=8081
+   MONGO_URL=mongodb://127.0.0.1:27017/coursapirest
    JWT_SECRET=mysecret
    JWT_ACCESS_TOKEN_EXPIRATION=2d
-   MYSQL_URL=mysql://root:MDP@127.0.0.1:3306/cinema
+   MYSQL_URL=mysql://root:@127.0.0.1:3306/cinema
    ```
 
 2. **Créer la base de données :**
